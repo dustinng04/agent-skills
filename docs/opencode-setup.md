@@ -23,14 +23,14 @@ After either step, create your own project-local `AGENTS.md` and, if you want th
 The fastest path is the open [`skills` CLI](https://github.com/vercel-labs/skills):
 
 ```bash
-npx skills add addyosmani/agent-skills            # install selected skills
-npx skills add addyosmani/agent-skills --list     # browse before installing
+npx skills add dustinng04/agent-skills            # install selected skills
+npx skills add dustinng04/agent-skills --list     # browse before installing
 ```
 
 Install a single skill:
 
 ```bash
-npx skills add addyosmani/agent-skills --skill spec-driven-development
+npx skills add dustinng04/agent-skills --skill spec-driven-development
 ```
 
 By default `npx skills` installs into a tool-specific directory (often `.claude/skills/` or a shared location). OpenCode will discover skills placed there because it reads `.claude/skills/<name>/SKILL.md` and the generic `.agents/skills/<name>/SKILL.md` paths.
@@ -49,7 +49,7 @@ cp -r .claude/skills/<skill-name> .opencode/skills/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/addyosmani/agent-skills.git
+git clone https://github.com/dustinng04/agent-skills.git
 ```
 
 2. Copy the desired skills into one of the OpenCode skill discovery paths.

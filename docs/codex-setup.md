@@ -5,7 +5,7 @@ This repository is also a [Codex plugin](https://developers.openai.com/codex/plu
 ## Install (one command)
 
 ```bash
-codex plugin marketplace add addyosmani/agent-skills
+codex plugin marketplace add dustinng04/agent-skills
 ```
 
 > Requires Codex CLI v0.122 or later. On older releases the command was `codex marketplace add`. See the [Codex CLI docs](https://developers.openai.com/codex/cli).

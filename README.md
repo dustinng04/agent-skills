@@ -45,16 +45,16 @@ Skills also activate automatically based on what you're doing — designing an A
 **Fastest path — any agent, one command.** The open [skills CLI](https://github.com/vercel-labs/skills) installs into 70+ agents (Claude Code, Cursor, Codex, Copilot, Cline, and more):
 
 ```bash
-npx skills add addyosmani/agent-skills            # install all 23 skills
-npx skills add addyosmani/agent-skills --list     # browse before installing
+npx skills add dustinng04/agent-skills            # install all 26 skills
+npx skills add dustinng04/agent-skills --list     # browse before installing
 ```
 
 Or grab individual skills:
 
 ```bash
-npx skills add addyosmani/agent-skills --skill code-review-and-quality   # five-axis review before merge
-npx skills add addyosmani/agent-skills --skill interview-me              # requirements interrogation, one question at a time
-npx skills add addyosmani/agent-skills --skill test-driven-development   # red-green-refactor, enforced
+npx skills add dustinng04/agent-skills --skill code-review-and-quality   # five-axis review before merge
+npx skills add dustinng04/agent-skills --skill interview-me              # requirements interrogation, one question at a time
+npx skills add dustinng04/agent-skills --skill test-driven-development   # red-green-refactor, enforced
 ```
 
 > **Installing one skill?** A per-skill `npx` install copies only
@@ -72,13 +72,13 @@ Prefer a native integration? Pick your tool below.
 **Marketplace install:**
 
 ```
-/plugin marketplace add addyosmani/agent-skills
+/plugin marketplace add dustinng04/agent-skills
 /plugin install agent-skills@addy-agent-skills
 ```
 
 > **SSH errors?** The marketplace clones repos via SSH. If you don't have SSH keys set up on GitHub, either [add your SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) or use the full HTTPS URL to force HTTPS cloning during the marketplace-add step:
 > ```bash
-> /plugin marketplace add https://github.com/addyosmani/agent-skills.git
+> /plugin marketplace add https://github.com/dustinng04/agent-skills.git
 > /plugin install agent-skills@addy-agent-skills
 > ```
 >
@@ -90,7 +90,7 @@ Prefer a native integration? Pick your tool below.
 **Local / development:**
 
 ```bash
-git clone https://github.com/addyosmani/agent-skills.git
+git clone https://github.com/dustinng04/agent-skills.git
 claude --plugin-dir /path/to/agent-skills
 ```
 
@@ -111,13 +111,13 @@ Install as a native plugin for skills, subagents, and slash commands. See [docs/
 **Install from the repo:**
 
 ```bash
-agy plugin install https://github.com/addyosmani/agent-skills.git
+agy plugin install https://github.com/dustinng04/agent-skills.git
 ```
 
 **Install from a local clone:**
 
 ```bash
-git clone https://github.com/addyosmani/agent-skills.git
+git clone https://github.com/dustinng04/agent-skills.git
 agy plugin install ./agent-skills
 ```
 
@@ -131,7 +131,7 @@ Install as native skills for auto-discovery, or add to `GEMINI.md` for persisten
 **Install from the repo:**
 
 ```bash
-gemini skills install https://github.com/addyosmani/agent-skills.git --path skills
+gemini skills install https://github.com/dustinng04/agent-skills.git --path skills
 ```
 
 **Install from a local clone:**
@@ -176,7 +176,7 @@ Use agent definitions from `agents/` as Copilot personas and skill content in `.
 Install as a native Codex plugin (Codex CLI v0.122+):
 
 ```bash
-codex plugin marketplace add addyosmani/agent-skills
+codex plugin marketplace add dustinng04/agent-skills
 ```
 
 Codex reads the root `skills/` directory directly through `.codex-plugin/plugin.json`. Once installed, invoke skills in chat using `@` (e.g., `@spec-driven-development`). See [docs/codex-setup.md](docs/codex-setup.md) for local installation and troubleshooting.
