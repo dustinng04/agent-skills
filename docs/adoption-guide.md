@@ -2,7 +2,7 @@
 
 How to roll out agent-skills depends heavily on where your codebase is in its life. A greenfield project can adopt the full lifecycle from commit one. A codebase with years of history needs an incremental path that respects what already exists, its conventions, its undocumented decisions, and its lack of test coverage in places you'd rather not touch blind.
 
-This guide covers both paths. For installation mechanics, see [getting-started.md](getting-started.md) and the per-tool setup guides. For what each skill does, see the [skill catalog in the README](../README.md#all-25-skills).
+This guide covers both paths. For installation mechanics, see [getting-started.md](getting-started.md) and the per-tool setup guides. For what each skill does, see the [skill catalog in the README](../README.md#all-23-skills).
 
 ---
 
@@ -28,8 +28,8 @@ A new project is the best-case scenario: there's no legacy behavior to preserve,
 ### Day 0 | Install and wire up
 
 1. Install the pack (`npx skills add addyosmani/agent-skills`, or the native integration for your tool, see [getting-started.md](getting-started.md)).
-2. If the host has no native skill router, load `using-agent-skills` (the meta-skill) so the agent can route work to the right skill on its own. On hosts with native routing, install the individual skills and do not preload the meta-skill as always-on context.
-3. Add a short project rules file (`CLAUDE.md`, `.cursorrules`, etc.) with your stack, commands, and boundaries, `context-engineering` describes what belongs there.
+2. Load `using-agent-skills` (the meta-skill) so the agent can route work to the right skill on its own.
+3. Add a short project rules file (`CLAUDE.md`, `.cursorrules`, etc.) with your stack, commands, and boundaries — `codebase-onboarding` can generate the structural starting point, then you tailor it.
 
 ### Day 0 | Define before you build
 
@@ -43,7 +43,7 @@ Run the lifecycle in order for the project's first real feature:
 /ship   →  when going live     (shipping-and-launch)
 ```
 
-`/build auto` is a good fit for greenfield: you approve the plan once and every task still runs test-driven and commits individually. The spec and plan artifacts (`SPEC.md`, `tasks/`) are living documents, keep them in version control while the work is in flight. If the feature spans more than one session, those files are also the handoff, see [working across sessions](getting-started.md#working-across-sessions).
+`/build auto` is a good fit for greenfield: you approve the plan once and every task still runs test-driven and commits individually. The spec and plan artifacts (`SPEC.md`, `tasks/`) are living documents, keep them in version control while the work is in flight.
 
 ### From the start, treat these as always-on
 
@@ -65,7 +65,7 @@ Run the lifecycle in order for the project's first real feature:
 ### Greenfield anti-patterns
 
 - **Skipping `/spec` because "it's just a prototype."** Prototypes become products. The spec is the cheapest artifact you'll ever write for this codebase.
-- **Loading all 25 skills into every session.** It wastes context and dilutes the ones that matter. Load by phase; let the host's native router or `using-agent-skills` route, but not both.
+- **Loading all 23 skills into every session.** It wastes context and dilutes the ones that matter. Load by phase; let `using-agent-skills` route.
 - **Deferring observability until "there's something to observe."** Instrument as you build, retrofitting structured logging is a Path B problem you're choosing to create.
 
 ---
@@ -78,7 +78,7 @@ In an established codebase, the risk profile inverts: the danger isn't building 
 
 Goal: the agent understands the codebase before it modifies anything.
 
-1. **`context-engineering` first.** Write the project rules file describing the real conventions, the ones in the code, not the ones in the wiki. Include build/test commands, directory meaning, known landmines ("don't touch `legacy/billing`, it has no tests and three known workarounds").
+1. **`codebase-onboarding` first.** Map the codebase (architecture shape, entry points, commands, risk areas) into `CLAUDE.md` per source, then refine the rules file to describe the real conventions — the ones in the code, not the ones in the wiki. Include known landmines ("don't touch `legacy/billing`, it has no tests and three known workarounds").
 2. **`code-review-and-quality` on incoming changes.** Reviewing is zero-risk and immediately valuable: the five-axis review and its severity labels (which separate what blocks a merge, Critical and Required, from what doesn't) work on any PR regardless of the codebase's state.
 3. **`debugging-and-error-recovery` for the bugs you were fixing anyway.** The five-step triage (reproduce → localize → reduce → fix → guard) shines in unfamiliar code, and the "guard" step starts building the regression suite you don't have.
 4. **`doubt-driven-development` as a safety net.** Legacy code is exactly the "unfamiliar code, high cost of being wrong" scenario this skill targets. Adversarial fresh-context review of the agent's claims about how the legacy system works catches confident hallucinations before they become commits.
@@ -109,7 +109,7 @@ Goal: two-speed adoption, legacy code stays under the Phase 1–2 regime; **new 
 
 - **"Big bang" adoption.** Loading the full lifecycle onto a legacy codebase on day one produces specs for code that already exists and refactors without safety nets. Sequence it.
 - **Letting the agent refactor untested code.** No characterization tests, no refactor. This is the single most expensive shortcut in brownfield adoption.
-- **Skipping `context-engineering` because "the code is the documentation."** The agent will infer conventions from the worst file it happens to read. Tell it the real ones.
+- **Skipping `codebase-onboarding` because "the code is the documentation."** The agent will infer conventions from the worst file it happens to read. Tell it the real ones.
 - **Treating the legacy system's behavior as wrong by default.** Chesterton's Fence: the weird retry loop may be load-bearing. Understand, then change.
 - **Ratcheting nothing.** Adoption should make quality monotonically better: each phase adds a gate that doesn't come back off. If a month in you can't name what's now enforced that wasn't before, the rollout has stalled.
 
@@ -121,7 +121,7 @@ Both end in the same steady state: `/spec → /plan → /build → /review → /
 
 |                        | Greenfield                     | Brownfield                               |
 | ---------------------- | ------------------------------ | ---------------------------------------- |
-| First skill loaded     | Native router, or `using-agent-skills` + `/spec` | `context-engineering`                    |
+| First skill loaded     | `using-agent-skills` + `/spec` | `codebase-onboarding`                    |
 | First value delivered  | Spec'd, tested first feature   | Zero-risk reviews and safer bug fixes    |
 | TDD posture            | Universal from commit one      | Selective: tests where change is planned |
 | Refactoring rule       | Rare (little to refactor)      | Characterization tests first, always     |

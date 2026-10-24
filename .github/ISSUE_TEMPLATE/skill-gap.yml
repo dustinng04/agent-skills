@@ -20,7 +20,6 @@ body:
         - ci-cd-and-automation
         - code-review-and-quality
         - code-simplification
-        - context-engineering
         - debugging-and-error-recovery
         - deprecation-and-migration
         - documentation-and-adrs

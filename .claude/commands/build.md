@@ -22,7 +22,7 @@ Pick the next pending task from the plan. Then:
 5. Run the full test suite to check for regressions
 6. Run the build to verify compilation
 7. Commit with a descriptive message
-8. Mark the task complete and stop
+8. Mark the task complete in `tasks/todo.md` (see Task State Notes below) and stop
 
 ## Autonomous: the whole plan (`/build auto`)
 
@@ -38,7 +38,38 @@ Use this once a spec exists and you want to collapse plan + build into one run. 
    - the spec is ambiguous, or a task needs a decision the spec doesn't cover
    - a task is high-risk or irreversible — auth/permission changes, destructive data migrations, payments, deletions, deploys, anything touching secrets, **or anything you can't undo with `git revert`** → follow agent-skills:doubt-driven-development and get explicit sign-off before continuing
 
-   After the user resolves a blocker, they re-invoke `/build auto` — it resumes from the next pending task.
+   When stopping, append an entry to `tasks/progress.md` (see Progress Log below) describing the blocker, what was tried, and the immediate next step, and mark the task `blocked` in `tasks/todo.md`. After the user resolves a blocker, they re-invoke `/build auto` — it reads `tasks/progress.md` first, then resumes from the next pending task.
 7. **Summarize at the end:** tasks completed, tests added, commits made, and anything skipped, flagged, or left for the user.
 
 If any step fails, follow the agent-skills:debugging-and-error-recovery skill.
+
+## Task State Notes (`tasks/todo.md`)
+
+`tasks/todo.md` is the machine-readable task state. Keep the checkbox authoritative and add a short status note inline per task so any agent can read current state at a glance:
+
+```markdown
+- [x] Task 1: Set up API contract types
+- [ ] Task 2: Implement auth endpoint — in-progress
+- [ ] Task 3: Build login UI — blocked: waiting on API contract (Task 1)
+```
+
+Statuses: `in-progress`, `blocked: <one-line reason>`, or bare checkbox for pending. Clear the note when the task completes — history lives in `tasks/progress.md`, not here.
+
+## Progress Log (`tasks/progress.md`)
+
+Session journal for resume-safety, append-only, written at three moments only:
+
+- **A blocker appears** — what stopped the work, what was tried, the exact next step
+- **A blocker is resolved** — what resolved it, and any decision the user made
+- **A meaningful deviation** — spec changed, a task was split/skipped/added, or a non-obvious approach was chosen
+
+A task completing normally needs no entry — the checkbox in `tasks/todo.md` already says it. Entry format:
+
+```markdown
+## 2025-06-01 — stopped at Task 3 (login UI)
+- Blocker: API contract from Task 1 doesn't cover refresh tokens
+- Tried: extending the session-based contract; touches auth middleware
+- Next: ask user whether refresh tokens are in scope for v1
+```
+
+On every session start (including `/build auto` re-invocation), read `tasks/progress.md` before doing anything else when it exists.
